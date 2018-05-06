@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/linearLayout" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        android:orientation="horizontal"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp">
+
+        <RelativeLayout
+            android:id="@+id/home_layout_view"
+            style="@style/Tab_relativeLayoutStyles">
+
+            <ImageView
+                android:id="@+id/home_image_view"
+                style="@style/Tab_ImageViewStyles"
+                android:background="@drawable/background_home_selector" />
+
+            <TextView
+                style="@style/Tab_TextViewStyles"
+                android:layout_below="@+id/home_image_view"
+                android:text="@string/home_image_view_text" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/pond_layout_view"
+            style="@style/Tab_relativeLayoutStyles">
+
+            <ImageView
+                android:id="@+id/fish_image_view"
+                style="@style/Tab_ImageViewStyles"
+                android:background="@drawable/comui_tab_pond" />
+
+            <TextView
+                style="@style/Tab_TextViewStyles"
+                android:layout_below="@+id/fish_image_view"
+                android:text="@string/pond_image_view_text" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/message_layout_view"
+            style="@style/Tab_relativeLayoutStyles">
+
+            <ImageView
+                android:id="@+id/message_image_view"
+                style="@style/Tab_ImageViewStyles"
+                android:background="@drawable/comui_tab_message" />
+
+            <TextView
+                style="@style/Tab_TextViewStyles"
+                android:layout_below="@+id/message_image_view"
+                android:text="@string/message_image_view_text" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/mine_layout_view"
+            style="@style/Tab_relativeLayoutStyles">
+
+            <ImageView
+                android:id="@+id/mine_image_view"
+                style="@style/Tab_ImageViewStyles"
+                android:background="@drawable/comui_tab_home" />
+
+            <TextView
+                style="@style/Tab_TextViewStyles"
+                android:layout_below="@+id/mine_image_view"
+                android:text="@string/mine_image_view_text" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_above="@+id/linearLayout"
+        android:background="@color/color_333333" />
+</RelativeLayout>
