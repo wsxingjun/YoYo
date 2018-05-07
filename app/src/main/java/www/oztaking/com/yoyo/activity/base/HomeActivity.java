@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import www.oztaking.com.yoyo.R;
 import www.oztaking.com.yoyo.view.fragment.HomeFragment;
 import www.oztaking.com.yoyo.view.fragment.MessageFragment;
