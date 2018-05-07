@@ -8,13 +8,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import www.oztaking.com.yoyo.R;
 import www.oztaking.com.yoyo.view.fragment.HomeFragment;
+import www.oztaking.com.yoyo.view.fragment.MessageFragment;
+import www.oztaking.com.yoyo.view.fragment.MineFragment;
+import www.oztaking.com.yoyo.view.fragment.PondFragment;
 
-public class HomeActivity extends AppCompatActivity implements View.OnClickListener
-{
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener{
 
     private RelativeLayout mHomeLayout;
     private RelativeLayout mPondLayout;
@@ -24,7 +25,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView mPondView;
     private ImageView mMessageView;
     private ImageView mMineView;
+
     private HomeFragment mHomeFragment;
+    private PondFragment mPondFragment;
+    private MessageFragment mMessageFragment;
+    private MineFragment mMineFragment;
 
     private Fragment mCurrent;
     private FragmentManager fm;
@@ -64,7 +69,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mPondView = (ImageView) findViewById(R.id.fish_image_view);
         mMessageView = (ImageView) findViewById(R.id.message_image_view);
         mMineView = (ImageView) findViewById(R.id.mine_image_view);
-        mHomeView.setBackgroundResource(R.drawable.comui_tab_home_selected);
+//        mHomeView.setBackgroundResource(R.drawable.comui_tab_home_selected);
+    }
+
+    private void hideFragment(Fragment fragment, FragmentTransaction transaction) {
+        if (fragment != null){
+            transaction.hide(fragment);
+        }
     }
 
     @Override
@@ -72,37 +83,63 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         switch(view.getId()){
              case R.id.home_layout_view:
+                 hideFragment(mPondFragment,fragmentTransaction);
+                 hideFragment(mMessageFragment,fragmentTransaction);
+                 hideFragment(mMineFragment,fragmentTransaction);
 
-//                 //在显示homeFragment的时候，需要隐藏其他的fragment；
-//                 hideFragment(mCommonFragmentOne, fragmentTransaction);
-//                 hideFragment(mMessageFragment, fragmentTransaction);
-//                 hideFragment(mMineFragment, fragmentTransaction);
-                 //显示homeFragment，不为空则显示；
-                 if (mHomeFragment == null) {
+                 if (mHomeFragment == null){
                      mHomeFragment = new HomeFragment();
-                     fragmentTransaction.add(R.id.content_layout, mHomeFragment);
-                 } else {
+                     fragmentTransaction.add(R.id.content_layout,mHomeFragment);
+                 }else {
                      mCurrent = mHomeFragment;
                      fragmentTransaction.show(mHomeFragment);
                  }
+
                   break;
             case R.id.pond_layout_view:
+                hideFragment(mHomeFragment,fragmentTransaction);
+                hideFragment(mMessageFragment,fragmentTransaction);
+                hideFragment(mMineFragment,fragmentTransaction);
+
+                if (mPondFragment == null){
+                    mPondFragment = new PondFragment();
+                    fragmentTransaction.add(R.id.content_layout,mPondFragment);
+                }else {
+                    mCurrent = mPondFragment;
+                    fragmentTransaction.show(mPondFragment);
+                }
                 break;
             case R.id.message_layout_view:
+                hideFragment(mHomeFragment,fragmentTransaction);
+                hideFragment(mPondFragment,fragmentTransaction);
+                hideFragment(mMineFragment,fragmentTransaction);
+
+                if (mMessageFragment == null){
+                    mMessageFragment = new MessageFragment();
+                    fragmentTransaction.add(R.id.content_layout,mMessageFragment);
+                }else {
+                    mCurrent = mMessageFragment;
+                    fragmentTransaction.show(mMessageFragment);
+                }
                 break;
             case R.id.mine_layout_view:
-                break;
+                hideFragment(mHomeFragment,fragmentTransaction);
+                hideFragment(mPondFragment,fragmentTransaction);
+                hideFragment(mMessageFragment,fragmentTransaction);
 
+                if (mMineFragment == null){
+                    mMineFragment = new MineFragment();
+                    fragmentTransaction.add(R.id.content_layout,mMineFragment);
+                }else {
+                    mCurrent = mMineFragment;
+                    fragmentTransaction.show(mMineFragment);
+                }
+                break;
             default:
                   break;
         }
-
-
+        fragmentTransaction.commit();
     }
 
-    private void hideFragment(Fragment fragment,FragmentTransaction fm){
-        if (fragment != null){
-            fm.hide(fragment);
-        }
-    }
+
 }

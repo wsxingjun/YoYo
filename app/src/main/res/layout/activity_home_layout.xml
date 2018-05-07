@@ -26,6 +26,7 @@
             <ImageView
                 android:id="@+id/home_image_view"
                 style="@style/Tab_ImageViewStyles"
+
                 android:background="@drawable/background_home_selector" />
 
             <TextView
@@ -41,7 +42,7 @@
             <ImageView
                 android:id="@+id/fish_image_view"
                 style="@style/Tab_ImageViewStyles"
-                android:background="@drawable/comui_tab_pond" />
+                android:background="@drawable/background_pond_selector" />
 
             <TextView
                 style="@style/Tab_TextViewStyles"
@@ -56,7 +57,7 @@
             <ImageView
                 android:id="@+id/message_image_view"
                 style="@style/Tab_ImageViewStyles"
-                android:background="@drawable/comui_tab_message" />
+                android:background="@drawable/background_message_selector" />
 
             <TextView
                 style="@style/Tab_TextViewStyles"
@@ -71,7 +72,7 @@
             <ImageView
                 android:id="@+id/mine_image_view"
                 style="@style/Tab_ImageViewStyles"
-                android:background="@drawable/comui_tab_home" />
+                android:background="@drawable/background_person_selector" />
 
             <TextView
                 style="@style/Tab_TextViewStyles"

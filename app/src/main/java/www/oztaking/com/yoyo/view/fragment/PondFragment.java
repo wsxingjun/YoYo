@@ -13,7 +13,7 @@ import www.oztaking.com.yoyo.R;
 /**
  *
  */
-public class MineFragment extends BaseFragment implements
+public class PondFragment extends BaseFragment implements
           View.OnClickListener,
         AdapterView.OnItemClickListener {
 
@@ -21,7 +21,8 @@ public class MineFragment extends BaseFragment implements
     //UI
     private View mContentView;
 
-    public MineFragment() {
+    public PondFragment() {
+
     }
 
     @Override
@@ -32,8 +33,8 @@ public class MineFragment extends BaseFragment implements
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mContext = getContext();
-        mContentView = inflater.inflate(R.layout.fragment_mine_layout,container,false);
+//        mContext = getContext();
+        mContentView = inflater.inflate(R.layout.fragment_pond_layout,container,false);
         return mContentView;
     }
 
