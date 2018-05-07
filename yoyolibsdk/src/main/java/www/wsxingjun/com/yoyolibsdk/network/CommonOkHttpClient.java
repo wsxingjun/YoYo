@@ -8,6 +8,8 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import www.wsxingjun.com.yoyolibsdk.network.https.HttpsUtils;
+import www.wsxingjun.com.yoyolibsdk.network.listener.DisposeDataHandle;
+import www.wsxingjun.com.yoyolibsdk.network.response.CommonJsonCallback;
 
 
 /**
@@ -51,6 +53,22 @@ public class CommonOkHttpClient {
 
         return call;
     }
+
+    public static Call get(Request request, DisposeDataHandle handle){
+        Call call = mOkHttpClient.newCall(request);
+        call.enqueue(new CommonJsonCallback(handle));
+        return call;
+    }
+
+    public static Call post(Request request,DisposeDataHandle handle){
+        Call call = mOkHttpClient.newCall(request);
+        call.enqueue(new CommonJsonCallback(handle));
+        return call;
+    }
+
+
+
+
 
 //    private void test(){
 //        CommonOkHttpClient.sendRequest(CommonRequest.createGetRequest("http://wwww.baidu.com",

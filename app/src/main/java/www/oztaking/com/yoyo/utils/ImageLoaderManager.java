@@ -75,7 +75,7 @@ public class ImageLoaderManager {
             displayImage(imageView, path,null,listener);
     }
 
-    private void displayImage(ImageView imageView, String path) {
+    public void displayImage(ImageView imageView, String path) {
         displayImage(imageView, path, null);
     }
 
