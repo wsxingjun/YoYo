@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/YoYo.iml" filepath="$PROJECT_DIR$/YoYo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/yoyolibsdk/yoyolibsdk.iml" filepath="$PROJECT_DIR$/yoyolibsdk/yoyolibsdk.iml" />
     </modules>
   </component>
 </project>
