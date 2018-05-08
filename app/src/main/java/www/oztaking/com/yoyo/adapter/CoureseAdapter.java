@@ -1,6 +1,7 @@
 package www.oztaking.com.yoyo.adapter;
 
 import android.content.Context;
+import android.support.v4.view.ScrollingView;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -90,9 +92,9 @@ public class CoureseAdapter extends BaseAdapter {
         final RecommandBodyValue value = (RecommandBodyValue) getItem(pos);
         if (convertView == null) {
             switch (type) {
-                case CARD_TYPE_ONE:
+                case CARD_TYPE_ONE: //多图item开发；
                     mViewHolder = new ViewHolder();
-                    convertView = mInflate.inflate(R.layout.item_product_card_one_layout1, parent, false);
+                    convertView = mInflate.inflate(R.layout.item_product_card_one_layout, parent, false);
                     //初始化Viewholder中使用到的控件；
                     mViewHolder.mLogoView = (CircleImageView) convertView.findViewById(R.id.item_logo_view);
                     mViewHolder.mTitleView = (TextView) convertView.findViewById(R.id.item_title_view);
@@ -101,14 +103,29 @@ public class CoureseAdapter extends BaseAdapter {
                     mViewHolder.mPriceView = (TextView) convertView.findViewById(R.id.item_price_view);
                     mViewHolder.mFromView = (TextView) convertView.findViewById(R.id.item_from_view);
                     mViewHolder.mZanView = (TextView) convertView.findViewById(R.id.item_zan_view);
-                    mViewHolder.mProductLayout = (LinearLayout) convertView.findViewById(R.id.product_photo_layout);
+                    mViewHolder.mPhotoLayout = (LinearLayout) convertView.findViewById(R.id.product_photo_layout);
 
-                    mViewHolder.mProductLayout.removeAllViews();
+                    mViewHolder.mPhotoLayout.removeAllViews();
                     //动态添加多个imageview
                     for (String url : value.url) {
-                        mViewHolder.mProductLayout.addView(createImageView(url));
+                        mViewHolder.mPhotoLayout.addView(createImageView(url));
                     }
                     break;
+
+                case CARD_TYPE_TWO:  //单图item开发
+                    mViewHolder = new ViewHolder();
+                    convertView = mInflate.inflate(R.layout.item_product_card_two_layout,parent,false);
+                    mViewHolder.mLogoView = (CircleImageView)convertView.findViewById(R.id.item_logo_view);
+                    mViewHolder.mTitleView = (TextView) convertView.findViewById(R.id.item_title_view);
+                    mViewHolder.mPriceView = (TextView) convertView.findViewById(R.id.item_price_view);
+                    mViewHolder.mInfoView = (TextView) convertView.findViewById(R.id.item_info_view);
+                    mViewHolder.mPhotoView = (ImageView) convertView.findViewById(R.id.product_photo_view);
+                    mViewHolder.mFooterView = (TextView) convertView.findViewById(R.id.item_footer_view);
+                    mViewHolder.mFromView = (TextView) convertView.findViewById(R.id.item_from_view);
+                    mViewHolder.mZanView = (TextView) convertView.findViewById(R.id.item_zan_view);
+
+                    break;
+
                 default:
                     break;
             }
@@ -123,9 +140,8 @@ public class CoureseAdapter extends BaseAdapter {
 
         //开始绑定数据
         switch (type) {
-            case CARD_TYPE_ONE:
+            case CARD_TYPE_ONE: //多图item开发；
 
-                Log.d("wsxingjun", "*****************************");
                 Log.d("wsxingjun", "CARD_TYPE_ONE绑定数据");
 
                 mViewHolder.mTitleView.setText(value.title);
@@ -135,14 +151,29 @@ public class CoureseAdapter extends BaseAdapter {
                 mViewHolder.mFromView.setText(value.from);
                 mViewHolder.mZanView.setText(mContext.getString(R.string.dian_zan).concat(value.zan));
 
+                Log.d("wsxingjun", "多图加载图片LOGO开始");
                 mImagerLoader.displayImage(mViewHolder.mLogoView, value.logo);
-
-                mViewHolder.mProductLayout.removeAllViews();
+                Log.d("wsxingjun", "多图加载图片LOGO开始");
+                mViewHolder.mPhotoLayout.removeAllViews();
                 //动态添加多个imageview
                 for (String url : value.url) {
-                    mViewHolder.mProductLayout.addView(createImageView(url));
+                    mViewHolder.mPhotoLayout.addView(createImageView(url));
                 }
                 break;
+
+            case CARD_TYPE_TWO: //单图item开发；
+
+                mViewHolder.mTitleView.setText(value.title);
+                mViewHolder.mInfoView.setText(value.info.concat(mContext.getString(R.string.tian_qian)));
+                mViewHolder.mFooterView.setText(value.text);
+                mViewHolder.mPriceView.setText(value.price);
+                mViewHolder.mFromView.setText(value.from);
+                mViewHolder.mZanView.setText(mContext.getString(R.string.dian_zan).concat(value.zan));
+
+
+                //为log加载图片
+                mImagerLoader.displayImage(mViewHolder.mLogoView,value.logo);
+                mImagerLoader.displayImage(mViewHolder.mPhotoView,value.url.get(0));
             default:
                 break;
         }
@@ -171,8 +202,11 @@ public class CoureseAdapter extends BaseAdapter {
         private TextView mFromView;
         private TextView mZanView;
 
-        //CardOne特有的属性
-        private LinearLayout mProductLayout;
+        //CardOne特有的属性  //多图item；
+        private LinearLayout mPhotoLayout;
+
+        //CardTwo特有的属性 //单图item
+        private ImageView mPhotoView;
 
     }
 }

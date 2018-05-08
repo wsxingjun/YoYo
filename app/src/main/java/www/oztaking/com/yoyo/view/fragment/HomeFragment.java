@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import www.oztaking.com.yoyo.R;
 import www.oztaking.com.yoyo.adapter.CoureseAdapter;
-import www.oztaking.com.yoyo.adapter.CourseAdapteraa;
 import www.oztaking.com.yoyo.network.RequestCenter;
 import www.oztaking.com.yoyo.module.recommand.BaseRecommandModule;
 import www.wsxingjun.com.yoyolibsdk.network.listener.DisposeDataListener;

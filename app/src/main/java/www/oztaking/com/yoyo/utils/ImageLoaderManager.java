@@ -62,17 +62,30 @@ public class ImageLoaderManager {
         ImageLoader.getInstance().init(config);
         mImageLoader = ImageLoader.getInstance();
     }
+//
+//    public void displayImage(ImageView imageView, String path,
+//                             DisplayImageOptions options,
+//                             ImageLoadingListener listener) {
+//        if (mImageLoader != null) {
+//            displayImage(imageView, path,options,listener);
+//        }
+//    }
 
-    public void displayImage(ImageView imageView, String path,
-                             DisplayImageOptions options,
-                             ImageLoadingListener listener) {
-        if (mImageLoader != null) {
-            displayImage(imageView, path,options,listener);
-        }
-    }
+//    public void displayImage(ImageView imageView, String path, ImageLoadingListener listener) {
+//            mImageLoader.displayImage(path,imageView,listener);
+//    }
+//
+//    public void displayImage(ImageView imageView, String path) {
+//        displayImage(imageView, path, null);
+//    }
 
+
+
+    //load the image
     public void displayImage(ImageView imageView, String path, ImageLoadingListener listener) {
-            displayImage(imageView, path,null,listener);
+        if (mImageLoader != null) {
+            mImageLoader.displayImage(path, imageView, listener);
+        }
     }
 
     public void displayImage(ImageView imageView, String path) {
