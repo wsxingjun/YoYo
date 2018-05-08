@@ -2,7 +2,6 @@ package www.oztaking.com.yoyo.adapter;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,31 +20,29 @@ import www.oztaking.com.yoyo.utils.ImageLoaderManager;
 import www.oztaking.com.yoyo.utils.Utils;
 
 /**
- * @function:
+ * @function
  */
 
-public class CoureseAdapter extends BaseAdapter {
+public class CourseAdapteraa extends BaseAdapter {
     /**
-     * listView 中不同item的标志
+     * 不同的item类型的标示
      */
-
     private static final int CARD_COUNT = 4;
     private static final int VIDOE_TYPE = 0x00; //视频类型的item
     private static final int CARD_TYPE_ONE = 0x01; //
     private static final int CARD_TYPE_TWO = 0x02;
     private static final int CARD_TYPE_THREE = 0x03;
 
-    private LayoutInflater mInflate;
-    private Context mContext;
-    //加载的数据
-    private ArrayList<RecommandBodyValue> mData;
+    private LayoutInflater mInflate;  //布局加载器；
+    private Context mContext; //上下文；
+    private ArrayList<RecommandBodyValue> mData; //需要加载的数据项；
     private ViewHolder mViewHolder;
 
     private ImageLoaderManager mImagerLoader;
 
-    public CoureseAdapter(Context mContext, ArrayList<RecommandBodyValue> mData) {
-        this.mData = mData;
-        this.mContext = mContext;
+    public CourseAdapteraa(Context context, ArrayList<RecommandBodyValue> data) {
+        mContext = context;
+        mData = data;
         mInflate = LayoutInflater.from(mContext);
         mImagerLoader = ImageLoaderManager.getInstance(mContext);
     }
@@ -56,44 +53,37 @@ public class CoureseAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int pos) {
-        return mData.get(pos);
+    public Object getItem(int position) {
+        return mData.get(position);
     }
 
-    //listView中存在几种类型的item;
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
     @Override
     public int getViewTypeCount() {
         return CARD_COUNT;
     }
 
-    /**
-     * 通知Adapter 使用哪种类型的item去加载数据
-     *
-     * @param position
-     * @return
-     */
     @Override
     public int getItemViewType(int position) {
         RecommandBodyValue value = (RecommandBodyValue) getItem(position);
         return value.type;
     }
 
-    @Override
-    public long getItemId(int pos) {
-        return pos;
-    }
 
     @Override
-    public View getView(int pos, View convertView, ViewGroup parent) {
-        Log.d("wsxingjun", "getView+++++++++++");
-        int type = getItemViewType(pos);
-        final RecommandBodyValue value = (RecommandBodyValue) getItem(pos);
+    public View getView(int position, View convertView, ViewGroup parent) {
+        int type = getItemViewType(position);
+        final RecommandBodyValue value = (RecommandBodyValue) getItem(position);
+        //无tag时
         if (convertView == null) {
             switch (type) {
                 case CARD_TYPE_ONE:
                     mViewHolder = new ViewHolder();
                     convertView = mInflate.inflate(R.layout.item_product_card_one_layout1, parent, false);
-                    //初始化Viewholder中使用到的控件；
                     mViewHolder.mLogoView = (CircleImageView) convertView.findViewById(R.id.item_logo_view);
                     mViewHolder.mTitleView = (TextView) convertView.findViewById(R.id.item_title_view);
                     mViewHolder.mInfoView = (TextView) convertView.findViewById(R.id.item_info_view);
@@ -102,57 +92,51 @@ public class CoureseAdapter extends BaseAdapter {
                     mViewHolder.mFromView = (TextView) convertView.findViewById(R.id.item_from_view);
                     mViewHolder.mZanView = (TextView) convertView.findViewById(R.id.item_zan_view);
                     mViewHolder.mProductLayout = (LinearLayout) convertView.findViewById(R.id.product_photo_layout);
-
-                    mViewHolder.mProductLayout.removeAllViews();
-                    //动态添加多个imageview
-                    for (String url : value.url) {
-                        mViewHolder.mProductLayout.addView(createImageView(url));
-                    }
-                    break;
-                default:
                     break;
             }
-
-            Log.d("wsxingjun", "+++++++++++++++++++++++++++=");
             convertView.setTag(mViewHolder);
-            Log.d("wsxingjun", "*****************************");
-
-        } else {
+        } else {//有tag时
             mViewHolder = (ViewHolder) convertView.getTag();
         }
-
-        //开始绑定数据
+        //填充item的数据
         switch (type) {
+
             case CARD_TYPE_ONE:
-
-                Log.d("wsxingjun", "*****************************");
-                Log.d("wsxingjun", "CARD_TYPE_ONE绑定数据");
-
+                mImagerLoader.displayImage(mViewHolder.mLogoView, value.logo);
                 mViewHolder.mTitleView.setText(value.title);
                 mViewHolder.mInfoView.setText(value.info.concat(mContext.getString(R.string.tian_qian)));
-                mViewHolder.mFooterView.setText(value.title);
+                mViewHolder.mFooterView.setText(value.text);
                 mViewHolder.mPriceView.setText(value.price);
                 mViewHolder.mFromView.setText(value.from);
                 mViewHolder.mZanView.setText(mContext.getString(R.string.dian_zan).concat(value.zan));
-
-                mImagerLoader.displayImage(mViewHolder.mLogoView, value.logo);
-
+//                mViewHolder.mProductLayout.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Intent intent = new Intent(mContext, PhotoViewActivity.class);
+//                        intent.putStringArrayListExtra(PhotoViewActivity.PHOTO_LIST, value.url);
+//                        mContext.startActivity(intent);
+//                    }
+//                });
                 mViewHolder.mProductLayout.removeAllViews();
                 //动态添加多个imageview
                 for (String url : value.url) {
                     mViewHolder.mProductLayout.addView(createImageView(url));
                 }
                 break;
-            default:
+
+            case CARD_TYPE_THREE:
                 break;
         }
-
         return convertView;
     }
 
-    private View createImageView(String url) {
+
+    //动态添加ImageView
+    private ImageView createImageView(String url) {
         ImageView photoView = new ImageView(mContext);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(Utils.dip2px(mContext, 100), LinearLayout.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams params = new LinearLayout.
+                LayoutParams(Utils.dip2px(mContext, 100),
+                LinearLayout.LayoutParams.MATCH_PARENT);
         params.leftMargin = Utils.dip2px(mContext, 5);
         photoView.setLayoutParams(params);
         mImagerLoader.displayImage(photoView, url);
@@ -160,19 +144,27 @@ public class CoureseAdapter extends BaseAdapter {
     }
 
     private static class ViewHolder {
-        //缓存所有的card共有属性
+        //所有Card共有属性
         private CircleImageView mLogoView;
         private TextView mTitleView;
         private TextView mInfoView;
         private TextView mFooterView;
+        //Video Card特有属性
+        private RelativeLayout mVieoContentLayout;
+        private ImageView mShareView;
 
-        // Video Card 外的所有的属性
+        //Video Card外所有Card具有属性
         private TextView mPriceView;
         private TextView mFromView;
         private TextView mZanView;
-
-        //CardOne特有的属性
+        //Card One特有属性
         private LinearLayout mProductLayout;
-
+        //Card Two特有属性
+        private ImageView mProductView;
+        //Card Three特有属性
+        private ViewPager mViewPager;
     }
+
+
+
 }

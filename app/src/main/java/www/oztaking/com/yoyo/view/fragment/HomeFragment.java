@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import www.oztaking.com.yoyo.R;
 import www.oztaking.com.yoyo.adapter.CoureseAdapter;
+import www.oztaking.com.yoyo.adapter.CourseAdapteraa;
 import www.oztaking.com.yoyo.network.RequestCenter;
 import www.oztaking.com.yoyo.module.recommand.BaseRecommandModule;
 import www.wsxingjun.com.yoyolibsdk.network.listener.DisposeDataListener;
@@ -40,6 +41,7 @@ public class HomeFragment extends BaseFragment implements
 
     private BaseRecommandModule mRecommandData;
     private CoureseAdapter mAdapter;
+//    private CourseAdapteraa mAdapter;
 
     public HomeFragment() {
     }
@@ -55,34 +57,26 @@ public class HomeFragment extends BaseFragment implements
      */
     private void requestReCommandData() {
         listener = new DisposeDataListener() {
-
-
-
             @Override
             public void onSuccess(Object responseObject) {
                 //完成真正的功能逻辑
                 Log.e(TAG, responseObject.toString());
                 mRecommandData = (BaseRecommandModule) responseObject;
                 showSuccessView();
-
             }
-
-
-
             @Override
             public void onFailer(Object reasonObj) {
                 //提示用户网络有问题
                 Log.e(TAG, reasonObj.toString());
-
             }
         };
         RequestCenter.requestRecommandData(listener);
-
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+//        mContext = getContext();
         mContext = getActivity();
         mContentView = inflater.inflate(R.layout.fragment_home_layout,container,false);
         initView();

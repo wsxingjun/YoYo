@@ -7,4 +7,10 @@
     <string name="hello_message_fragment">Messagefragment</string>
     <string name="hello_mine_fragment">Minefragment</string>
     <string name="home_edittext_hint">请输入宝贝关键字</string>
+    <string name="tian_qian">天前</string>
+    <string name="dian_zan">点赞</string>
+
+
+
+
 </resources>
