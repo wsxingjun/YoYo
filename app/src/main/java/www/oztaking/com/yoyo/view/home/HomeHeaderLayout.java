@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
 
 import www.oztaking.com.yoyo.R;
+import www.oztaking.com.yoyo.adapter.HeadPagerAdapter;
 import www.oztaking.com.yoyo.module.recommand.RecommandHeadValue;
 import www.oztaking.com.yoyo.utils.ImageLoaderManager;
 import www.oztaking.com.yoyo.view.viewpagerindicator.CirclePageIndicator;

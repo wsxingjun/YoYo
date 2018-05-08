@@ -8,15 +8,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import www.oztaking.com.yoyo.R;
 import www.oztaking.com.yoyo.adapter.CoureseAdapter;
 import www.oztaking.com.yoyo.network.RequestCenter;
 import www.oztaking.com.yoyo.module.recommand.BaseRecommandModule;
+import www.oztaking.com.yoyo.view.home.HomeHeaderLayout;
 import www.wsxingjun.com.yoyolibsdk.network.listener.DisposeDataListener;
 
 /**
@@ -59,8 +62,11 @@ public class HomeFragment extends BaseFragment implements
             @Override
             public void onSuccess(Object responseObject) {
                 //完成真正的功能逻辑
-                Log.e(TAG, responseObject.toString());
+                Log.e(TAG, responseObject.toString()+"++++++++++++++++++");
                 mRecommandData = (BaseRecommandModule) responseObject;
+                Toast.makeText(getActivity(),"+++++++++++++++++",Toast.LENGTH_SHORT).show();
+                Log.d(TAG,mRecommandData.toString()+"++++++++++++++++++");
+
                 showSuccessView();
             }
             @Override
@@ -122,9 +128,29 @@ public class HomeFragment extends BaseFragment implements
             mImgViewLoading.setVisibility(View.GONE);
             mListview.setVisibility(View.VISIBLE);
 
+            //为listView添加头
+            mListview.addHeaderView(
+                    new HomeHeaderLayout(mContext,mRecommandData.data.head));
+
+
             //创建适配器adapter
             mAdapter = new CoureseAdapter(mContext,mRecommandData.data.list);
             mListview.setAdapter(mAdapter);
+//            mAdapter.notifyDataSetChanged();
+            mListview.setOnScrollListener(new AbsListView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(AbsListView absListView, int i) {
+
+                }
+
+                @Override
+                public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+//                        mAdapter.updateAdInScrollView();
+//                    mAdapter.notifyDataSetChanged();
+                }
+            });
+
+
         }else {
             showErrorView();
         }

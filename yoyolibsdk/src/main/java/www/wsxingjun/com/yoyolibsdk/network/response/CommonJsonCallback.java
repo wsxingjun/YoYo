@@ -77,39 +77,67 @@ public class CommonJsonCallback implements Callback {
         });
     }
 
-    //处理服务器返回的响应的数据
-    private void handleResponse(Object resonseObj) {
-        //保证代码的健壮性
-        if (resonseObj == null && resonseObj.toString().trim().equals("")) {
+//    //处理服务器返回的响应的数据
+//    private void handleResponse(Object resonseObj) {
+//        //保证代码的健壮性
+//        if (resonseObj == null && resonseObj.toString().trim().equals("")) {
+//            mListener.onFailer(new OkHttpException(NETWORK_ERROR, EMPTY_MSG));
+//            return;
+//        }
+//
+//
+//        try {
+//            JSONObject result = new JSONObject(resonseObj.toString());
+//            if (result.has(RESULT_CODE)) {
+//                //从json对象中取出响应码，如果是0，则是正确的响应；
+//                if (mClass == null) {
+//                    mListener.onSuccess(resonseObj);//返回给应用层自己的处理；
+//                } else {
+//                    //json转化为实体对象
+//                    Object obj = ResponseEntityToModule.parseJsonObjectToModule(result, mClass);
+//                    //正确的数据返回实体对象；
+//                    if (obj != null) {
+//                        mListener.onSuccess(obj);
+//                    } else {
+//                        //返回的是不合法的jons；
+//                        mListener.onFailer(new OkHttpException(JSON_ERROR, EMPTY_MSG));
+//                    }
+//                }
+//            } else {
+//                //将服务器的异常回调到应用层去处理；
+//                mListener.onFailer(new OkHttpException(OTHER_ERROR,
+//                        result.get(RESULT_CODE)));
+//            }
+//        } catch (JSONException e) {
+//            mListener.onFailer(new OkHttpException(OTHER_ERROR, e.getMessage()));
+//        }
+//    }
+
+
+    private void handleResponse(Object responseObj) {
+        if (responseObj == null || responseObj.toString().trim().equals("")) {
             mListener.onFailer(new OkHttpException(NETWORK_ERROR, EMPTY_MSG));
             return;
         }
 
-
         try {
-            JSONObject result = new JSONObject(resonseObj.toString());
-            if (result.has(RESULT_CODE)) {
-                //从json对象中取出响应码，如果是0，则是正确的响应；
-                if (mClass == null) {
-                    mListener.onSuccess(resonseObj);//返回给应用层自己的处理；
-                } else {
-                    //json转化为实体对象
-                    Object obj = ResponseEntityToModule.parseJsonObjectToModule(result, mClass);
-                    //正确的数据返回实体对象；
-                    if (obj != null) {
-                        mListener.onSuccess(obj);
-                    } else {
-                        //返回的是不合法的jons；
-                        mListener.onFailer(new OkHttpException(JSON_ERROR, EMPTY_MSG));
-                    }
-                }
+            /**
+             * 协议确定后看这里如何修改
+             */
+            JSONObject result = new JSONObject(responseObj.toString());
+            if (mClass == null) {
+                mListener.onSuccess(result);
             } else {
-                //将服务器的异常回调到应用层去处理；
-                mListener.onFailer(new OkHttpException(OTHER_ERROR,
-                        result.get(RESULT_CODE)));
+                Object obj = ResponseEntityToModule.parseJsonObjectToModule(result, mClass);
+                if (obj != null) {
+                    mListener.onSuccess(obj);
+                } else {
+                    mListener.onFailer(new OkHttpException(JSON_ERROR, EMPTY_MSG));
+                }
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             mListener.onFailer(new OkHttpException(OTHER_ERROR, e.getMessage()));
+            e.printStackTrace();
         }
     }
 }

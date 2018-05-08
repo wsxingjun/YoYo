@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 
 public class RecommandModule {
-    public ArrayList<RecommandBodyValue>list;
+    public ArrayList<RecommandBodyValue> list;
     public RecommandHeadValue head;
 
 }
