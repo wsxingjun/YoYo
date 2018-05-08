@@ -126,6 +126,19 @@ public class CoureseAdapter extends BaseAdapter {
 
                     break;
 
+                case CARD_TYPE_THREE://pager多图显示
+                    mViewHolder = new ViewHolder();
+                    convertView = mInflate.inflate(R.layout.item_product_card_three_layout,parent,false);
+                    mViewHolder.mViewPager = (ViewPager) convertView.findViewById(R.id.vp_view_pager);
+
+
+                    //增加数据
+                     ArrayList<RecommandBodyValue> recommandList = Utils.handleData(value);
+                    mViewHolder.mViewPager.setPageMargin(Utils.dip2px(mContext,12));
+                    mViewHolder.mViewPager.setAdapter(new HotSalePagerAdapter(mContext,recommandList));
+                    mViewHolder.mViewPager.setCurrentItem(recommandList.size() * 100);
+                    break;
+
                 default:
                     break;
             }
@@ -174,6 +187,10 @@ public class CoureseAdapter extends BaseAdapter {
                 //为log加载图片
                 mImagerLoader.displayImage(mViewHolder.mLogoView,value.logo);
                 mImagerLoader.displayImage(mViewHolder.mPhotoView,value.url.get(0));
+
+            case CARD_TYPE_THREE:
+                break;
+
             default:
                 break;
         }
@@ -207,6 +224,9 @@ public class CoureseAdapter extends BaseAdapter {
 
         //CardTwo特有的属性 //单图item
         private ImageView mPhotoView;
+
+        //CardThree 特有的属性 //viewPager
+        private ViewPager mViewPager;
 
     }
 }
