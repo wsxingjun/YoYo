@@ -31,6 +31,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     testCompile 'junit:junit:4.12'
 
+    compile 'com.orhanobut:logger:1.15'  //日志打印封装库；
     compile 'com.squareup.okhttp3:okhttp:3.3.0' //okttp依赖
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5' //图片加载Imageloader库
 
