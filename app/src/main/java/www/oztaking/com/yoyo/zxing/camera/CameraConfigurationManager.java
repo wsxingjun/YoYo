@@ -23,6 +23,7 @@ import android.util.Log;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import www.oztaking.com.yoyo.zxing.util.Util;
@@ -78,7 +79,7 @@ final class CameraConfigurationManager {
 	 * planar Y can be used for barcode scanning without a copy in some cases.
 	 */
 	void setDesiredCameraParameters(Camera camera) {
-		Camera.Parameters parameters = camera.getParameters();
+/*		Camera.Parameters parameters = camera.getParameters();
 		Log.d(TAG, "Setting preview size: " + cameraResolution);
 		parameters.setPreviewSize(cameraResolution.x, cameraResolution.y);
 		setFlash(parameters);
@@ -87,7 +88,29 @@ final class CameraConfigurationManager {
 		camera.setParameters(parameters);
 		// ���������ת90��
 		// camera.setDisplayOrientation(90);
-		setDisplayOrientation(camera, 90);
+		setDisplayOrientation(camera, 90);*/
+
+		//修复近距离扫描二维码扫描不出
+		Camera.Parameters parameters = camera.getParameters();
+		List<Camera.Size> supportedPreviewSizes = parameters.getSupportedPreviewSizes();
+		int position = 0;
+		if (supportedPreviewSizes.size() > 2){
+			position = supportedPreviewSizes.size() /2 + 1;
+		}else {
+			position = supportedPreviewSizes.size() / 2;
+		}
+
+		int width = supportedPreviewSizes.get(position).width;
+		int height = supportedPreviewSizes.get(position).height;
+		Log.d(TAG,"Setting preview size :" + cameraResolution);
+		camera.setDisplayOrientation(90);
+		cameraResolution.x = width;
+		cameraResolution.y = height;
+		parameters.setPreviewSize(width,height);
+		setFlash(parameters);
+		setZoom(parameters);
+		camera.setParameters(parameters);
+
 	}
 
 	Point getCameraResolution() {
