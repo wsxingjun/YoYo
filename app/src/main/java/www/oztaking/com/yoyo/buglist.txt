@@ -192,4 +192,82 @@ java.lang.NullPointerException: Attempt to invoke virtual method 'void android.w
 05-08 23:54:29.401: E/HomeFragment(8218): www.wsxingjun.com.yoyolibsdk.network.exception.OkHttpException
 
 
+=================================================
+【zxing移植】
+【BUG1】配置CapterActivity到清单文件；
+【BUG2】自定义控件在xml中的viewfindView的包名写的不正确；
+{
+05-09 13:49:51.833 1074-1074/www.oztaking.com.yoyo E/AndroidRuntime: FATAL EXCEPTION: main
+                                                                     Process: www.oztaking.com.yoyo, PID: 1074
+                                                                     java.lang.RuntimeException: Unable to start activity ComponentInfo{www.oztaking.com.yoyo/www.oztaking.com.yoyo.zxing.app.CaptureActivity}: android.view.InflateException: Binary XML file line #16: Binary XML file line #16: Error inflating class www.oztaking.com.yoyo.zxing.view
 
+                                                                         at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2514)
+                                                                         at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2574)
+                                                                         at android.app.ActivityThread.access$1000(ActivityThread.java:166)
+                                                                         at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1411)
+                                                                         at android.os.Handler.dispatchMessage(Handler.java:102)
+                                                                         at android.os.Looper.loop(Looper.java:148)
+                                                                         at android.app.ActivityThread.main(ActivityThread.java:5563)
+                                                                         at java.lang.reflect.Method.invoke(Native Method)
+                                                                         at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:853)
+                                                                         at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:737)
+
+
+
+                                                                      Caused by: android.view.InflateException: Binary XML file line #16: Binary XML file line #16: Error inflating class www.oztaking.com.yoyo.zxing.view
+                                                                         at android.view.LayoutInflater.inflate(LayoutInflater.java:545)
+                                                                         at android.view.LayoutInflater.inflate(LayoutInflater.java:429)
+                                                                         at android.view.LayoutInflater.inflate(LayoutInflater.java:380)
+                                                                         at com.android.internal.policy.PhoneWindow.setContentView(PhoneWindow.java:425)
+                                                                         at android.app.Activity.setContentView(Activity.java:2182)
+                                                                         at www.oztaking.com.yoyo.zxing.app.CaptureActivity.onCreate(CaptureActivity.java:146)
+                                                                         at android.app.Activity.performCreate(Activity.java:6309)
+                                                                         at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1114)
+                                                                         at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2467)
+                                                                         at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2574) 
+                                                                         at android.app.ActivityThread.access$1000(ActivityThread.java:166) 
+                                                                         at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1411) 
+                                                                         at android.os.Handler.dispatchMessage(Handler.java:102) 
+                                                                         at android.os.Looper.loop(Looper.java:148) 
+                                                                         at android.app.ActivityThread.main(ActivityThread.java:5563) 
+                                                                         at java.lang.reflect.Method.invoke(Native Method) 
+                                                                         at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:853) 
+                                                                         at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:737) 
+
+
+
+                                                                      Caused by: android.view.InflateException: Binary XML file line #16: Error inflating class www.oztaking.com.yoyo.zxing.view
+                                                                         at android.view.LayoutInflater.createViewFromTag(LayoutInflater.java:821)
+                                                                         at android.view.LayoutInflater.createViewFromTag(LayoutInflater.java:749)
+                                                                         at android.view.LayoutInflater.rInflate(LayoutInflater.java:880)
+                                                                         at android.view.LayoutInflater.rInflateChildren(LayoutInflater.java:843)
+                                                                         at android.view.LayoutInflater.rInflate(LayoutInflater.java:883)
+                                                                         at android.view.LayoutInflater.rInflateChildren(LayoutInflater.java:843)
+                                                                         at android.view.LayoutInflater.inflate(LayoutInflater.java:521)
+                                                                         at android.view.LayoutInflater.inflate(LayoutInflater.java:429) 
+                                                                         at android.view.LayoutInflater.inflate(LayoutInflater.java:380) 
+
+                                                                         at com.android.internal.policy.PhoneWindow.setContentView(PhoneWindow.java:425) 
+
+
+                                                                         at android.app.Activity.setContentView(Activity.java:2182) 
+                                                                         at www.oztaking.com.yoyo.zxing.app.CaptureActivity.onCreate(CaptureActivity.java:146) 
+                                                                         at android.app.Activity.performCreate(Activity.java:6309) 
+                                                                         at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1114) 
+                                                                         at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2467) 
+                                                                         at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2574) 
+                                                                         at android.app.ActivityThread.access$1000(ActivityThread.java:166) 
+                                                                         at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1411) 
+                                                                         at android.os.Handler.dispatchMessage(Handler.java:102) 
+                                                                         at android.os.Looper.loop(Looper.java:148) 
+                                                                         at android.app.ActivityThread.main(ActivityThread.java:5563) 
+                                                                         at java.lang.reflect.Method.invoke(Native Method) 
+                                                                         at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:853) 
+                                                                         at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:737)
+
+
+
+
+                                                                      Caused by: java.lang.ClassNotFoundException: Didn't find class "www.oztaking.com.yoyo.zxing.view" on path: DexPathList[[zip file "/data/app/www.oztaking.com.yoyo-1/base.apk", zip file "/data/app/www.oztaking.com.yoyo-1/split_lib_dependencies_apk.apk", zip file "/data/app/www.oztaking.com.yoyo-1/split_lib_slice_0_apk.apk", zip file "/data/app/www.oztaking.com.yoyo-1/split_lib_slice_1_apk.apk", zip file "/data/app/www.oztaking.com.yoyo-1/split_lib_slice_2_apk.apk", zip file "/data/app/www.oztaking.com.yoyo-1/split_lib_slice_3_apk.apk", zip file "/data/app/www.oztaking.com.yoyo-1/split_lib_slice_4_apk.apk", zip file "/data/app/www.oztaking.com.yoyo-1/split_lib_slice_5_apk.apk", zip file "/data/app/www.oztaking.com.yoyo-1/split_lib_slice_6_apk.apk", zip file "/data/app/www.oztaking.com.yoyo-1/split_lib_slice_7_apk.apk", zip file "/data/app/www.oztaking.com.yoyo-1/split_lib_slice_8_apk.apk", zip file "/data/app/www.oztaking.com.yoyo-1/split_lib_slice_9_apk.apk"],nativeLibraryDirectories=[/data/app/www.oztaking.com.yoyo-1/lib/arm, /data/app/www.oztaking.com.yoyo-1/base.apk!/lib/armeabi-v7a, /data/app/www.oztaking.com.yoyo-1/split_lib_dependencies_apk.apk!/lib/armeabi-v7a, /data/app/www.oztaking.com.yoyo-1/split_lib_slice_0_apk.apk!/lib/armeabi-v7a, /data/app/www.oztaking.com.yoyo-1/split_lib_slice_1_apk.apk!/lib/armeabi-v7a, /data/app/www.oztaking.com.yoyo-1/split_lib_slice_2_apk.apk!/lib/armeabi-v7a, /data/app/www.oztaking.com.yoyo-1/split_lib_slice_3_apk.apk!/lib/armeabi-v7a, /data/app/www.oztaking.com.yoyo-1/split_lib_slice_4_apk.apk!/lib/armeabi-v7a, /data/app/www.oztaking.com.yoyo-1/split_lib_slice
+
+}

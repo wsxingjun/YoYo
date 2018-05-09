@@ -1,6 +1,8 @@
 package www.oztaking.com.yoyo.view.fragment;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,6 +22,7 @@ import www.oztaking.com.yoyo.adapter.CoureseAdapter;
 import www.oztaking.com.yoyo.network.RequestCenter;
 import www.oztaking.com.yoyo.module.recommand.BaseRecommandModule;
 import www.oztaking.com.yoyo.view.home.HomeHeaderLayout;
+import www.oztaking.com.yoyo.zxing.app.CaptureActivity;
 import www.wsxingjun.com.yoyolibsdk.network.listener.DisposeDataListener;
 
 /**
@@ -30,6 +33,8 @@ public class HomeFragment extends BaseFragment implements
         AdapterView.OnItemClickListener {
 
     private static final String TAG = "HomeFragment";
+
+    private static final int REQUEST_QRCODE = 0x01;
 
     private Context mContext;
     //UI
@@ -112,6 +117,18 @@ public class HomeFragment extends BaseFragment implements
 
     @Override
     public void onClick(View view) {
+        switch(view.getId()){
+            case R.id.tv_quickMark:
+                doOpenCamera();
+                Toast.makeText(mContext,"扫描二维码按钮被点击了",Toast.LENGTH_SHORT).show();
+            break;
+        }
+
+    }
+
+    private void doOpenCamera() {
+        Intent intent = new Intent(mContext, CaptureActivity.class);
+        startActivityForResult(intent,REQUEST_QRCODE);
 
     }
 
@@ -156,5 +173,23 @@ public class HomeFragment extends BaseFragment implements
 
     private void showErrorView() {
 
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch(requestCode){
+            case REQUEST_QRCODE:
+                if (resultCode == Activity.RESULT_OK){
+                    String code = data.getStringExtra("SCAN_RESULT");
+//                    if (code.contains("http") || code.contains("https")){
+//                        Intent intent = new Intent(mContext, AdBrowserActivity.class);
+//                        intent.putExtra(AdBr)
+//                    }
+
+                    Toast.makeText(mContext,"二维码扫描结果："+code,Toast.LENGTH_SHORT).show();
+                }
+            break;
+        }
     }
 }

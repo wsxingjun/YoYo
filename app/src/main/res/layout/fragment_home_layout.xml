@@ -40,6 +40,7 @@
             android:gravity="center"
             android:padding="6dp"
             android:text="@string/home_edittext_hint"
+            android:background="@drawable/background_home_edittext"
             android:textColor="@color/color_cdcdcd"
             android:textSize="16sp" />
     </RelativeLayout>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#000000"
+    android:paddingBottom="15dp"
+    android:paddingTop="15dp">
+
+    <RelativeLayout
+        style="@style/qrcode_reletivelayout"
+        android:layout_marginLeft="15dp">
+        <Button
+            android:id="@+id/photo_btn"
+            style="@style/qrcode_buttonStyle"
+            android:background="@drawable/photo_drwable_btn" />
+        <TextView
+            style="@style/qrcode_textStyle"
+            android:layout_below="@id/photo_btn"
+            android:text="相册" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        style="@style/qrcode_reletivelayout"
+        android:layout_centerInParent="true">
+        <Button
+            android:id="@+id/lighte_btn"
+            style="@style/qrcode_buttonStyle"
+            android:background="@drawable/light_drwable_btn" />
+        <TextView
+            style="@style/qrcode_textStyle"
+            android:layout_below="@id/lighte_btn"
+            android:text="灯光" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        style="@style/qrcode_reletivelayout"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="15dp"
+        >
+        <Button
+            android:id="@+id/qrcode_btn"
+            style="@style/qrcode_buttonStyle"
+            android:background="@drawable/qrcode_drwable_btn" />
+        <TextView
+            style="@style/qrcode_textStyle"
+            android:layout_below="@id/qrcode_btn"
+            android:text="二维码" />
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

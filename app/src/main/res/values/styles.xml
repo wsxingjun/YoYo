@@ -33,4 +33,32 @@
     </style>
 
 
+
+
+
+
+    <!--</RelativeLayout>-->
+
+<!--二维码布局中的样式-->
+
+    <style name="qrcode_reletivelayout">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="qrcode_buttonStyle">
+        <item name="android:layout_width">65dp</item>
+        <item name="android:layout_height">67dp</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="qrcode_textStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
 </resources>
