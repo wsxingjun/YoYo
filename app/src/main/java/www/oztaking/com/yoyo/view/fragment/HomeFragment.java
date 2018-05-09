@@ -58,7 +58,8 @@ public class HomeFragment extends BaseFragment implements
      * 发送首页列表请求
      */
     private void requestReCommandData() {
-        listener = new DisposeDataListener() {
+//        listener = new DisposeDataListener() {
+        RequestCenter.requestRecommandData(new DisposeDataListener() {
             @Override
             public void onSuccess(Object responseObject) {
                 //完成真正的功能逻辑
@@ -74,8 +75,8 @@ public class HomeFragment extends BaseFragment implements
                 //提示用户网络有问题
                 Log.e(TAG, reasonObj.toString());
             }
-        };
-        RequestCenter.requestRecommandData(listener);
+        });
+//        RequestCenter.requestRecommandData(listener);
     }
 
     @Nullable
@@ -131,12 +132,10 @@ public class HomeFragment extends BaseFragment implements
             //为listView添加头
             mListview.addHeaderView(
                     new HomeHeaderLayout(mContext,mRecommandData.data.head));
-
-
             //创建适配器adapter
             mAdapter = new CoureseAdapter(mContext,mRecommandData.data.list);
             mListview.setAdapter(mAdapter);
-//            mAdapter.notifyDataSetChanged();
+
             mListview.setOnScrollListener(new AbsListView.OnScrollListener() {
                 @Override
                 public void onScrollStateChanged(AbsListView absListView, int i) {
@@ -145,8 +144,7 @@ public class HomeFragment extends BaseFragment implements
 
                 @Override
                 public void onScroll(AbsListView absListView, int i, int i1, int i2) {
-//                        mAdapter.updateAdInScrollView();
-//                    mAdapter.notifyDataSetChanged();
+
                 }
             });
 

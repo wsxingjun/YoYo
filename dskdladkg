@@ -1,0 +1,71 @@
+[33mcommit 077d73d19f4e272d798cb8d77f6d1c8e7c1bea05[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: wsxingjun <1185889308@qq.com>
+Date:   Wed May 9 00:01:27 2018 +0800
+
+    v10 添加完了头布局，但是打开应用程序之后请求网络数据之后闪退 [bug]详解bug-5
+
+[33mcommit d3b272376317b28a30c9f800d1df073ad880142c[m[33m ([m[1;33mtag: v9[m[33m)[m
+Author: wsxingjun <1185889308@qq.com>
+Date:   Tue May 8 17:28:50 2018 +0800
+
+    v9--【临时版本】新增首页的头布局 【BUG】闪退依然存在 未修复
+
+[33mcommit 2ad419ca81ea788b4cc6fae9dd935ca37ee9ac6f[m[33m ([m[1;33mtag: v8[m[33m)[m
+Author: wsxingjun <1185889308@qq.com>
+Date:   Tue May 8 16:19:33 2018 +0800
+
+    v8--增加了第三个itemem_three，viewpager 闪退问题仍然存在 空指针异常 未测试
+
+[33mcommit 08de7581370812645a135ea51c38aa2c1724f4cb[m[33m ([m[1;33mtag: v7[m[33m)[m
+Author: wsxingjun <1185889308@qq.com>
+Date:   Tue May 8 14:51:08 2018 +0800
+
+    v7-- 增加单图布局 CARD_TWO,发现错误：CARDRD_ONE 是多图模式，其中的布局存在混乱 [bug]依然存在 空指针异常
+
+[33mcommit 994ce2a92bd0cd9e495c485306dbb2b6eab6fa0d[m[33m ([m[1;33mtag: v6[m[33m)[m
+Author: wsxingjun <1185889308@qq.com>
+Date:   Tue May 8 13:43:50 2018 +0800
+
+    v6--首页单图item开发完成，但是存在空指针错误，错误处：Courese.Adadpter: convertView.setTag(mViewHodler);
+
+[33mcommit 82f9c27406f7d4bfd22ea3e681094bd8aa0032f6[m
+Author: wsxingjun <1185889308@qq.com>
+Date:   Mon May 7 23:50:21 2018 +0800
+
+    v5--首页CARD_ONE类型展示 未完成 临时版本提交
+
+[33mcommit e35b177fddbfa8e4cf484488214be20f06e0b6be[m[33m ([m[1;33mtag: v4[m[33m)[m
+Author: wsxingjun <1185889308@qq.com>
+Date:   Mon May 7 17:02:14 2018 +0800
+
+    v4--为首页的fragment增加布局 ，图片太大，待修改
+
+[33mcommit 47cd6ba5fde3aa0d65a329e75e27aa3c4fefe447[m[33m ([m[1;33mtag: v3[m[33m)[m
+Author: wsxingjun <1185889308@qq.com>
+Date:   Mon May 7 15:56:53 2018 +0800
+
+    v3--图片加载库ImageUniversLoader封装完成
+
+[33mcommit ee83b9fc3a42ba2a4a8257b0e08cb62792ecaa17[m[33m ([m[1;33mtag: v2[m[33m)[m
+Author: wsxingjun <1185889308@qq.com>
+Date:   Mon May 7 14:57:26 2018 +0800
+
+    v2--okhttp 封装完成
+
+[33mcommit b66b4bccad975b219aed4c5ae9e0230bd899dd23[m[33m ([m[1;33mtag: v1[m[33m)[m
+Author: wsxingjun <1185889308@qq.com>
+Date:   Mon May 7 10:05:06 2018 +0800
+
+    v1--完成首页Activity的点击切换功能
+
+[33mcommit 04886c13b436c8622970edc40a01841fef0603b7[m
+Author: wsxingjun <1185889308@qq.com>
+Date:   Mon May 7 00:01:45 2018 +0800
+
+    v0--【临时存档】HomeActivity中的fragment切换；布局文件完成
+
+[33mcommit 4aecb31737860306091db66937409cbb089b5f3b[m
+Author: wsxingjun <1185889308@qq.com>
+Date:   Sun May 6 23:58:15 2018 +0800
+
+    Initial commit

@@ -15,6 +15,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
+
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -30,13 +33,19 @@ import www.oztaking.com.yoyo.utils.Utils;
 public class CoureseAdapter extends BaseAdapter {
     /**
      * listView 中不同item的标志
+     *
      */
+    private static final String TAG = "wsxingjun";
+    private int mLongth;
+
+
 
     private static final int CARD_COUNT = 4;
     private static final int VIDOE_TYPE = 0x00; //视频类型的item
     private static final int CARD_TYPE_ONE = 0x01; //
     private static final int CARD_TYPE_TWO = 0x02;
     private static final int CARD_TYPE_THREE = 0x03;
+
 
     private LayoutInflater mInflate;
     private Context mContext;
@@ -46,11 +55,13 @@ public class CoureseAdapter extends BaseAdapter {
 
     private ImageLoaderManager mImagerLoader;
 
-    public CoureseAdapter(Context mContext, ArrayList<RecommandBodyValue> mData) {
-        mData = mData;
-        mContext = mContext;
-        mInflate = LayoutInflater.from(mContext);
-        mImagerLoader = ImageLoaderManager.getInstance(mContext);
+    public CoureseAdapter(Context context, ArrayList<RecommandBodyValue> data) {
+        mData = data;
+        mContext = context;
+        mInflate = LayoutInflater.from(context);
+        mImagerLoader = ImageLoaderManager.getInstance(context);
+        mLongth = data.size();
+        Logger.addLogAdapter(new AndroidLogAdapter());
     }
 
     @Override
