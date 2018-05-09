@@ -158,8 +158,11 @@ final class CameraConfigurationManager {
 				continue;
 			}
 
-			int newDiff = Math.abs(newX - screenResolution.x)
-					+ Math.abs(newY - screenResolution.y);
+//			int newDiff = Math.abs(newX - screenResolution.x)
+//					+ Math.abs(newY - screenResolution.y);
+
+			//修改二维码识别的图像拉伸变形的问题；
+			int newDiff = Math.abs(newY - screenResolution.x) + Math.abs(newX -screenResolution.y);
 			if (newDiff == 0) {
 				bestX = newX;
 				bestY = newY;
