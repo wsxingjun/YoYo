@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    >
+
+    <TextureView
+        android:id="@+id/xadsdk_player_video_textureView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+
+    <ImageView
+        android:id="@+id/framing_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/xadsdk_frame_bg"/>
+
+    <ImageView
+        android:id="@+id/xadsdk_to_full_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/xadsdk_frame_bg"
+        android:scaleType="fitCenter"
+        android:visibility="visible"/>
+
+    <Button
+        android:id="@+id/xadsdk_small_play_btn"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/xadsdk_ad_play"
+        android:visibility="visible"/>
+
+    <ImageView
+        android:id="@+id/loading_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/xadsdk_ad_loading_anim"
+        android:visibility="visible"/>
+</RelativeLayout>
