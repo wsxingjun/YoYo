@@ -37,6 +37,7 @@ import www.wsxingjun.com.yoyolibsdk.adutils.Utils;
 import www.wsxingjun.com.yoyolibsdk.constant.SDKConstant;
 import www.wsxingjun.com.yoyolibsdk.network.https.HttpsUtils;
 
+import static android.R.attr.breakStrategy;
 import static android.R.attr.id;
 import static android.R.id.list;
 
@@ -157,13 +158,16 @@ public class CustomVideoView extends RelativeLayout implements
     }
 
 
+    //当视频页面切换到另外一个页面的时候，该页面就会被挂载到后台；播放视频也需要处理，此时系统会提供方法回调；
     //当屏幕上的view发生变化的时候，此方法会被回调；
     @Override
     protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
         Log.d(TAG, "onVisibilityChanged: 屏幕发生了变化...");
         super.onVisibilityChanged(changedView, visibility);
         if (visibility == VISIBLE && mPlayerState == STATE_PLAYING){
+            //决定是否播放
             if (isRealPause() || isComplete()){
+                //视频播放器进入到了真正的暂停状态；
                 pause();
             }else {
                  decideCanPlay();
@@ -311,11 +315,30 @@ public class CustomVideoView extends RelativeLayout implements
 
     }
 
+    //监听锁屏事件的广播接收器[对锁屏和解锁屏幕的处理]
     public class ScreenEventReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
+//            主动锁屏时，pause；主动解锁时，resume；
+            switch(intent.getAction()){
+                 case Intent.ACTION_USER_PRESENT:
+                     if (mPlayerState == STATE_PAUSING){
+                         if (mIsRealPause){
+                             pause();
+                         }else {
+                             decideCanPlay();
+                         }
+                     }
+                      break;
+                 case Intent.ACTION_SCREEN_OFF:
+                     if (mPlayerState == STATE_PLAYING){
+                         pause();
+                     }
+                     break;
 
+                 default:
+                      break;
+            }
         }
     }
 
@@ -527,7 +550,7 @@ public class CustomVideoView extends RelativeLayout implements
     }
 
     private void ShowPauseView(boolean show) {
-        mFullBtn.setVisibility(shw ? View.VISIBLE : View.GONE);
+        mFullBtn.setVisibility(show ? View.VISIBLE : View.GONE);
         mMiniPlayBtn.setVisibility(show ? View.GONE : View.VISIBLE);
         mLoadingBar.clearAnimation();
         mLoadingBar.setVisibility(View.GONE);
@@ -595,6 +618,10 @@ public class CustomVideoView extends RelativeLayout implements
         }
 
         return 0;
+    }
+
+    public void setDataSource(String url){
+        this.mFrameURI = url;
     }
 
 

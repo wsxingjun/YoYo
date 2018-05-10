@@ -68,26 +68,26 @@ public class Utils {
         return false;
     }
 
-    //decide can autoplay the ad
-    public static boolean canAutoPlay(Context context, AutoPlaySetting setting) {
-        boolean result = true;
-        switch (setting) {
-            case AUTO_PLAY_3G_4G_WIFI:
-                result = true;
-                break;
-            case AUTO_PLAY_ONLY_WIFI:
-                if (isWifiConnected(context)) {
-                    result = true;
-                } else {
-                    result = false;
-                }
-                break;
-            case AUTO_PLAY_NEVER:
-                result = false;
-                break;
-        }
-        return result;
-    }
+//    //decide can autoplay the ad
+//    public static boolean canAutoPlay(Context context, AutoPlaySetting setting) {
+//        boolean result = true;
+//        switch (setting) {
+//            case AUTO_PLAY_3G_4G_WIFI:
+//                result = true;
+//                break;
+//            case AUTO_PLAY_ONLY_WIFI:
+//                if (isWifiConnected(context)) {
+//                    result = true;
+//                } else {
+//                    result = false;
+//                }
+//                break;
+//            case AUTO_PLAY_NEVER:
+//                result = false;
+//                break;
+//        }
+//        return result;
+//    }
 
     /**
      * 获取对应应用的版本号
@@ -107,22 +107,22 @@ public class Utils {
         return version;
     }
 
-    /**
-     * 将数组中的所有素材IE拼接起来，空则拼接“”
-     *
-     * @param values
-     * @return
-     */
-    public static String getAdIE(ArrayList<AdValue> values) {
-        StringBuilder result = new StringBuilder();
-        if (values != null && values.size() > 0) {
-            for (AdValue value : values) {
-                result.append(value.adid.equals("") ? "" : value.adid).append(",");
-            }
-            return result.substring(0, result.length() - 1);
-        }
-        return "";
-    }
+//    /**
+//     * 将数组中的所有素材IE拼接起来，空则拼接“”
+//     *
+//     * @param values
+//     * @return
+//     */
+//    public static String getAdIE(ArrayList<AdValue> values) {
+//        StringBuilder result = new StringBuilder();
+//        if (values != null && values.size() > 0) {
+//            for (AdValue value : values) {
+//                result.append(value.adid.equals("") ? "" : value.adid).append(",");
+//            }
+//            return result.substring(0, result.length() - 1);
+//        }
+//        return "";
+//    }
 
     public static DisplayMetrics getDisplayMetrics(Context context) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
