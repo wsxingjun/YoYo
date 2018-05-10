@@ -1,13 +1,23 @@
 package www.oztaking.com.yoyo.zxing.util;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Point;
+import android.graphics.Rect;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.View;
+
+
+import static www.wsxingjun.com.yoyolibsdk.constant.SDKConstant.AutoPlaySetting;
+
 
 public class Util {
 
@@ -72,5 +82,60 @@ public class Util {
 			e.printStackTrace();
 			return "";
 		}
+	}
+
+
+	public static int getVisiblePercent(View pView) {
+		if (pView != null && pView.isShown()) {
+			DisplayMetrics displayMetrics = pView.getContext().getResources().getDisplayMetrics();
+			int displayWidth = displayMetrics.widthPixels;
+			Rect rect = new Rect();
+			pView.getGlobalVisibleRect(rect);
+			if ((rect.top > 0) && (rect.left < displayWidth)) {
+				double areaVisible = rect.width() * rect.height();
+				double areaTotal = pView.getWidth() * pView.getHeight();
+				return (int) ((areaVisible / areaTotal) * 100);  //计算面积的百分比
+			} else {
+				return -1;
+			}
+		}
+		return -1;
+	}
+
+
+	//decide can autoplay the ad
+	public static boolean canAutoPlay(Context context, AutoPlaySetting setting) {
+		boolean result = true;
+		switch (setting) {
+			case AUTO_PLAY_3G_4G_WIFI:
+				result = true;
+				break;
+			case AUTO_PLAY_ONLY_WIFI:
+				if (isWifiConnected(context)) {
+					result = true;
+				} else {
+					result = false;
+				}
+				break;
+			case AUTO_PLAY_NEVER:
+				result = false;
+				break;
+		}
+		return result;
+	}
+
+	//is wifi connected
+	public static boolean isWifiConnected(Context context) {
+		if (context.checkCallingOrSelfPermission(Manifest.permission.ACCESS_WIFI_STATE)
+				!= PackageManager.PERMISSION_GRANTED) {
+			return false;
+		}
+		ConnectivityManager connectivityManager = (ConnectivityManager)
+				context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo info = connectivityManager.getActiveNetworkInfo();
+		if (info != null && info.isConnected() && info.getType() == ConnectivityManager.TYPE_WIFI) {
+			return true;
+		}
+		return false;
 	}
 }

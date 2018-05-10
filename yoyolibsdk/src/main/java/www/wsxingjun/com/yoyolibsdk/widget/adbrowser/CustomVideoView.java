@@ -177,7 +177,7 @@ public class CustomVideoView extends RelativeLayout implements
         }
     }
 
-    private boolean isRealPause() {
+    public boolean isRealPause() {
         return mIsRealPause;
     }
 
@@ -196,6 +196,13 @@ public class CustomVideoView extends RelativeLayout implements
     //播放器的开始、暂停按键的响应；
     @Override
     public void onClick(View v) {
+//        if (v == this.mMiniPlayBtn){
+//            if (this.mPlayerState == STATE_PAUSING){
+//                if (Utils.getVisiblePercent(mParentContainer)){
+//
+//                }
+//            }
+//        }
 
     }
 
@@ -285,11 +292,12 @@ public class CustomVideoView extends RelativeLayout implements
 
 
     public interface ADVideoPlayerListener {
+
         public void OnAdVideoLoadSuccess();
 
-        public void OnBufferUpdate();
+        public void OnBufferUpdate(int time);  //视频播放器播放到了第几秒；
 
-        public void OnClickFullScreenBtn();
+        public void OnClickFullScreenBtn();  //跳转全屏的播放事件；
 
         public void OnClickVideo();
 
@@ -419,7 +427,7 @@ public class CustomVideoView extends RelativeLayout implements
 
     }
 
-    private boolean isPlaying() {
+    public boolean isPlaying() {
         if (mMediaPlayer != null && mMediaPlayer.isPlaying()){
             return true;
         }
@@ -489,7 +497,22 @@ public class CustomVideoView extends RelativeLayout implements
     }
 
     //跳到指定点暂停视频
-    public void SeekAndPause() {
+    public void SeekAndPause(int position) {
+        if (this.mPlayerState != STATE_PLAYING){
+            return;
+        }
+        showPauseView(false);
+        setCurrentPlayeState(STATE_PAUSING);
+        if (isPlaying()){
+            mMediaPlayer.seekTo(position);
+            mMediaPlayer.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
+                @Override
+                public void onSeekComplete(MediaPlayer mediaPlayer) {
+                    mMediaPlayer.pause();
+                    mHandler.removeCallbacksAndMessages(null);
+                }
+            });
+        }
 
     }
 
@@ -589,11 +612,11 @@ public class CustomVideoView extends RelativeLayout implements
         setIsComplete(false);
     }
 
-    private void setIsComplete(boolean isComplete) {
+    public void setIsComplete(boolean isComplete) {
         this.mIsComplete = isComplete;
     }
 
-    private void setIsRealPause(boolean isRealPause) {
+    public void setIsRealPause(boolean isRealPause) {
             this.mIsRealPause = isRealPause;
     }
 

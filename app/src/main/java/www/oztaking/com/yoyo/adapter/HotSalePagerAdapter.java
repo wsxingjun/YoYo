@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class HotSalePagerAdapter  extends PagerAdapter{
     private ImageView mImgeViewOne;
     private ImageView mImgeViewTwo;
     private ImageView mImgeViewThree;
-    private TextView mRootView;
+    private RelativeLayout mRootView;
     private TextView mTitleView;
     private TextView mInfoView;
     private TextView mGonggaoView;
@@ -69,7 +70,7 @@ public class HotSalePagerAdapter  extends PagerAdapter{
     public Object instantiateItem(ViewGroup container, int position) {
         final RecommandBodyValue value = mData.get(position % mData.size());
         //初始化布局
-        mRootView = (TextView) mInflate.inflate(R.layout.item_hot_product_pager_layout, null);
+        mRootView = (RelativeLayout) mInflate.inflate(R.layout.item_hot_product_pager_layout, null);
         mTitleView = (TextView) mRootView.findViewById(R.id.title_view);
         mInfoView = (TextView) mRootView.findViewById(R.id.info_view);
         mGonggaoView = (TextView) mRootView.findViewById(R.id.gonggao_view);

@@ -35,10 +35,10 @@ public class CommonRequest {
     //get请求封装
 
     /**
-     * @function:通过传入的参数返回一个Get类型的请求；
      * @param url
      * @param params
      * @return
+     * @function:通过传入的参数返回一个Get类型的请求；
      */
     public static Request createGetRequest(String url, RequestParams params) {
         StringBuilder urlBuilder = new StringBuilder(url).append("?");
@@ -55,6 +55,18 @@ public class CommonRequest {
                 .Builder()
                 .url(urlBuilder.substring(0, urlBuilder.length() - 1))
                 .get()
+                .build();
+    }
+
+
+    public static Request createMonitorRequest(String url, RequestParams params) {
+        StringBuilder urlBuilder = new StringBuilder(url).append("&");
+        if (params != null && params.hasParams()) {
+            for (Map.Entry<String, String> entry : params.urlParams.entrySet()) {
+                urlBuilder.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
+            }
+        }
+        return new Request.Builder().url(urlBuilder.substring(0, urlBuilder.length() - 1)).get()
                 .build();
     }
 }

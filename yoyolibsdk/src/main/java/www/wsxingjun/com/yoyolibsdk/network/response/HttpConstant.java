@@ -7,7 +7,9 @@ package www.wsxingjun.com.yoyolibsdk.network.response;
 public class HttpConstant {
 
 
-    private static final String ROOT_URL = "http://imooc.com/api";
+    public static final String ROOT_URL = "http://imooc.com/api";
+
+    public static final String ATM_PRE = "val.atm.youku.com";
 
     /**
      * 首页产品请求接口
