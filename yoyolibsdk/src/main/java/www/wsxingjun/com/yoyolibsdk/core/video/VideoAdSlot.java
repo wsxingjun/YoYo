@@ -1,17 +1,17 @@
-package www.oztaking.com.yoyo.video;
+package www.wsxingjun.com.yoyolibsdk.core.video;
 
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.ViewGroup;
 
-import org.w3c.dom.Text;
-
 import www.oztaking.com.yoyo.zxing.util.Util;
-import www.wsxingjun.com.yoyolibsdk.Activity.ADBrowserActivity;
+import www.wsxingjun.com.yoyolibsdk.Activity.AdBrowserActivity;
 import www.wsxingjun.com.yoyolibsdk.constant.SDKConstant;
+import www.wsxingjun.com.yoyolibsdk.module.monitor.AdValue;
 import www.wsxingjun.com.yoyolibsdk.report.ReportManager;
 import www.wsxingjun.com.yoyolibsdk.widget.adbrowser.CustomVideoView;
+import www.wsxingjun.com.yoyolibsdk.widget.adbrowser.VideoFullDialog;
 
 /**
  * @function:
@@ -62,9 +62,23 @@ public class VideoAdSlot implements CustomVideoView.ADVideoPlayerListener{
     }
 
 
-
+    //全屏按钮的调用
     @Override
     public void OnClickFullScreenBtn() {
+        mParentView.removeView(mVideoView);//将播放器从view中移除；
+        VideoFullDialog dialog = new VideoFullDialog(mContext, mVideoView, mVideoInfo, mVideoView.getCurrentPosition());
+        dialog.setListener(new VideoFullDialog.FullToSmallListener() {
+            @Override
+            public void getCurrentPlayPostion(int position) {
+                backToSmallMode(position);//在全屏幕播放的时候点击了回调；
+            }
+
+            @Override
+            public void playComplete() {
+                bigPlayCommplete(); //全屏播放完成后的事件的回调
+            }
+        });
+
 
     }
 
@@ -73,8 +87,8 @@ public class VideoAdSlot implements CustomVideoView.ADVideoPlayerListener{
         String desationUrl = mVideoInfo.clickUrl;
         //跳转都web页面
         if (!TextUtils.isEmpty(desationUrl)){
-            Intent intent = new Intent(mContext, ADBrowserActivity.class);
-            intent.putExtra(ADBrowserActivity.KEY_URL,mVideoInfo.clickUrl);
+            Intent intent = new Intent(mContext, AdBrowserActivity.class);
+            intent.putExtra(AdBrowserActivity.KEY_URL,mVideoInfo.clickUrl);
             mContext.startActivity(intent);
         }
 
@@ -214,6 +228,21 @@ public class VideoAdSlot implements CustomVideoView.ADVideoPlayerListener{
             mVideoView.setIsRealPause(true);
         }
     }
+
+    //传递消息到appcontext层
+    public interface AdSDKSlotListener {
+
+        public ViewGroup getAdParent();
+
+        public void onAdVideoLoadSuccess();
+
+        public void onAdVideoLoadFailed();
+
+        public void onAdVideoLoadComplete();
+
+        public void onClickVideo(String url);
+    }
+
 
 
 

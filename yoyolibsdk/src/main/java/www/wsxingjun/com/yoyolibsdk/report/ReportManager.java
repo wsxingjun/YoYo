@@ -36,30 +36,53 @@ public class ReportManager {
     public static void suReport(ArrayList<Monitor> monitors, boolean isFull, long playTime) {
         if (monitors != null && monitors.size() > 0) {
 
-            for (Monitor monitor:monitors){
+            for (Monitor monitor : monitors) {
                 RequestParams params = new RequestParams();
-                if (Utils.containString(monitor.url, HttpConstant.ATM_PRE)){
-                    if (isFull){
+                if (Utils.containString(monitor.url, HttpConstant.ATM_PRE)) {
+                    if (isFull) {
                         try {
-                            params.put("fu","l");
+                            params.put("fu", "l");
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
 
                     }
                     try {
-                        params.put("ve",String.valueOf(playTime));
+                        params.put("ve", String.valueOf(playTime));
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
                 }
 
                 CommonOkHttpClient.get(
-                        CommonRequest.createMonitorRequest(monitor.url,params),handle);
+                        CommonRequest.createMonitorRequest(monitor.url, params), handle);
             }
 
-
         }
-
     }
+
+    /**
+     * send the video pause monitor
+     *
+     * @param monitors urls
+     * @param playTime player time
+     */
+    public static void pauseVideoReport(ArrayList<Monitor> monitors, long playTime) {
+        if (monitors != null && monitors.size() > 0) {
+            for (Monitor monitor : monitors) {
+                RequestParams params = new RequestParams();
+                if (Utils.containString(monitor.url, HttpConstant.ATM_PRE)) {
+                    try {
+                        params.put("ve", String.valueOf(playTime));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+                CommonOkHttpClient.get(
+                        CommonRequest.createMonitorRequest(monitor.url, params), handle);
+            }
+        }
+    }
+
+
 }

@@ -6,6 +6,6 @@ import android.app.Activity;
  * @function:
  */
 
-public class ADBrowserActivity extends Activity {
+public class AdBrowserActivity extends Activity {
     public static final String KEY_URL = "url";
 }

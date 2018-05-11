@@ -12,8 +12,6 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.provider.MediaStore;
-import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -28,18 +26,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import java.io.IOException;
-
 import com.orhanobut.logger.Logger;
+
+import java.io.IOException;
 
 import www.wsxingjun.com.yoyolibsdk.R;
 import www.wsxingjun.com.yoyolibsdk.adutils.Utils;
 import www.wsxingjun.com.yoyolibsdk.constant.SDKConstant;
-import www.wsxingjun.com.yoyolibsdk.network.https.HttpsUtils;
-
-import static android.R.attr.breakStrategy;
-import static android.R.attr.id;
-import static android.R.id.list;
 
 /**
  * @function 负责视频的播放、暂停以及各类事件的触发
@@ -376,7 +369,7 @@ public class CustomVideoView extends RelativeLayout implements
      * turn off voice
      * @param mute
      */
-    private void mute(boolean mute) {
+    public void mute(boolean mute) {
         mIsMute = mute;
         if (mMediaPlayer != null && this.mAudioManager != null){
             float volume = mIsMute?0.0f:1.0f;
@@ -645,6 +638,10 @@ public class CustomVideoView extends RelativeLayout implements
 
     public void setDataSource(String url){
         this.mFrameURI = url;
+    }
+
+    public boolean isFrameHidden(){
+        return mFrameView.getVisibility() == View.VISIBLE?false:true;
     }
 
 

@@ -1,8 +1,7 @@
-package www.oztaking.com.yoyo.video;
+package www.wsxingjun.com.yoyolibsdk.module.monitor;
 
 import java.util.ArrayList;
 
-import www.wsxingjun.com.yoyolibsdk.module.monitor.Monitor;
 import www.wsxingjun.com.yoyolibsdk.module.monitor.emevent.EMEvent;
 
 /**
