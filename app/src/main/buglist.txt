@@ -390,3 +390,98 @@ java.lang.NullPointerException: Attempt to invoke virtual method 'void android.w
                                                                          at android.view.ViewRootImpl$WindowInputEventReceiver.onInputEvent(ViewRootImpl.java:6110)
                                                                          at android.view.InputEventReceiver.dispatchInputEvent(InputEventReceiver.java:193)
                                                                      	at android.view.InputEventReceiver.nativeConsumeBatchedInputE
+===============================================================================================
+[BUG8] 编译通过，生成apk，安装到手机端的时候报错；
+[原因]使用到的是gson库，与作者的版本不一致，导致的错误； 替换为作者的版本可以正常的安装调试；
+下面是一些建议使用不起效；
+
+	Executing tasks: [
+	:app:generateDebugSources,
+	:app:generateDebugAndroidTestSources,
+	:app:mockableAndroidJar, :app:prepareDebugUnitTestDependencies,
+	:app:compileDebugSources, :app:compileDebugAndroidTestSources,
+	:app:compileDebugUnitTestSources,
+	:yoyolibsdk:generateDebugSources,
+	:yoyolibsdk:generateDebugAndroidTestSources,
+	:yoyolibsdk:mockableAndroidJar,
+	:yoyolibsdk:prepareDebugUnitTestDependencies,
+	:yoyolibsdk:compileDebugSources,
+	:yoyolibsdk:compileDebugAndroidTestSources,
+	:yoyolibsdk:compileDebugUnitTestSources]
+
+21:17	Gradle build finished in 18s 50ms
+
+=================================================================
+Error:Error converting bytecode to dex:
+Cause: java.lang.RuntimeException: Exception parsing classes
+Error:1 error;
+aborting
+Error:Execution failed for task
+':app:transformClassesWithDexForDebug'.
+> com.android.build.api.transform.TransformException
+: java.lang.RuntimeException
+: com.android.ide.common.process.ProcessException
+:java.util.concurrent.ExecutionException
+:com.android.ide.common.process.ProcessException:
+
+ Return code 1 for dex process
+
+ ===============================================================
+ Information:Gradle tasks [:app:assembleDebug]
+Error:Error converting bytecode to dex:
+Cause: java.lang.RuntimeException: Exception parsing classes
+Error:1 error; aborting
+Error:Execution failed for task ':app:transformClassesWithDexForDebug'.
+> com.android.build.api.transform.TransformException
+: java.lang.RuntimeException
+: com.android.ide.common.process.ProcessException
+: java.util.concurrent.ExecutionException
+: com.android.ide.common.process.ProcessException
+
+: Return code 1 for dex process
+
+
+
+ {
+ [1]
+ defaultConfig {
+    ...
+    multiDexEnabled true
+}
+==============
+[2]
+解决方法:
+
+1.查看是否有重复导入的jar包
+
+2.修改builde.gradle buildToolsVersion "23.0.2" 改为 最新版
+
+3.builder.gradle 下添加 defaultConfig {
+       .....
+        multiDexEnabled true
+        .....
+    }
+
+
+    dexOptions {
+        incremental true
+        javaMaxHeapSize "4g"
+    }
+
+另外如果使用了最新的build tools    compilesdk也要使用最新的 依赖的support也使用最新的  三者要保持一致
+
+compileSdkVersion 23
+buildToolsVersion '23.0.1'
+
+compile 'com.android.support:appcompat-v7:23.1.1'
+compile 'com.android.support:recyclerview-v7:23.1.1'
+compile 'com.android.support:multidex:1.0.0'
+compile 'com.android.support:design:23.1.1'
+compile 'com.android.support:cardview-v7:23.1.1'
+
+
+
+
+ }
+
+ 

@@ -161,7 +161,7 @@ public class HomeFragment extends BaseFragment implements
 
                 @Override
                 public void onScroll(AbsListView absListView, int i, int i1, int i2) {
-
+                    mAdapter.updateAdInScrollView();
                 }
             });
 

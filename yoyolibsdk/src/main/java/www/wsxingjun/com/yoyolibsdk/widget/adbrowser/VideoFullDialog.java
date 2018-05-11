@@ -44,6 +44,8 @@ public class VideoFullDialog extends Dialog implements CustomVideoView.ADVideoPl
     private int mPosition;//从小屏到全屏播放位置的记录；
     private boolean isFirst = true; //适配是解决的bug
 
+    private Bundle mStartBundle;
+
     private VideoAdSlot.AdSDKSlotListener mSlotListener;
 
 
@@ -113,6 +115,8 @@ public class VideoFullDialog extends Dialog implements CustomVideoView.ADVideoPl
             }
         }
     }
+
+
 
     /**
      * dialog销毁时候调用；
@@ -218,6 +222,14 @@ public class VideoFullDialog extends Dialog implements CustomVideoView.ADVideoPl
 
     public void setListener(FullToSmallListener listener) {
         this.mListener = listener;
+    }
+
+    public void setViewBundle(Bundle bundle) {
+        mStartBundle = bundle;
+    }
+
+    public void setSlotListener(VideoAdSlot.AdSDKSlotListener slotListener) {
+        this.mSlotListener = slotListener;
     }
 
 }

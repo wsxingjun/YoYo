@@ -9,6 +9,7 @@ import android.graphics.SurfaceTexture;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnSeekCompleteListener;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -33,6 +34,7 @@ import java.io.IOException;
 import www.wsxingjun.com.yoyolibsdk.R;
 import www.wsxingjun.com.yoyolibsdk.adutils.Utils;
 import www.wsxingjun.com.yoyolibsdk.constant.SDKConstant;
+import www.wsxingjun.com.yoyolibsdk.core.AdParameters;
 
 /**
  * @function 负责视频的播放、暂停以及各类事件的触发
@@ -68,21 +70,21 @@ public class CustomVideoView extends RelativeLayout implements
     private Button mMiniPlayBtn;
     private ImageView mLoadingBar;
     private ImageView mFrameView;
-    private Button mFullBtn;
+    private ImageView mFullBtn;
 
     private AudioManager mAudioManager; //音量控制器
     private Surface mVideoSurface; //真正显示帧数据的类
     private ADFrameImageLoadListener mFrameLoadListener;
-    private ADVideoPlayerListener mListener;
-
 
     //Data
-    private String mFrameURI; //加载视频的地址；
+    private String mUrl; //加载视频的地址；
+    private String mFrameURI;
     private boolean mIsMute; //是否静音
     private int mScreenWidth, mDestationHeight;  //宽度是屏幕的宽度，高度是；16:9计算；
 
 
     //状态的保护
+    private boolean canPlay = true;
     private boolean mIsRealPause;
     private boolean mIsComplete;
     private int mCurrentCount;
@@ -141,13 +143,29 @@ public class CustomVideoView extends RelativeLayout implements
         mPlayerView.setLayoutParams(params);
 
         mMiniPlayBtn = (Button) mPlayerView.findViewById(R.id.xadsdk_small_play_btn);
-        mFullBtn = (Button) mPlayerView.findViewById(R.id.xadsdk_to_full_view);
+        mFullBtn = (ImageView) mPlayerView.findViewById(R.id.xadsdk_to_full_view);
         mLoadingBar = (ImageView) mPlayerView.findViewById(R.id.loading_bar);
         mFrameView = (ImageView) mPlayerView.findViewById(R.id.framing_view);
 
         mMiniPlayBtn.setOnClickListener(this);
         mFullBtn.setOnClickListener(this);
 
+    }
+
+    private MediaPlayer createMediaPlayer() {
+        mMediaPlayer = new MediaPlayer();
+        mMediaPlayer.reset();
+        mMediaPlayer.setOnPreparedListener(this);
+        mMediaPlayer.setOnCompletionListener(this);
+        mMediaPlayer.setOnInfoListener(this);
+        mMediaPlayer.setOnErrorListener(this);
+        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+//        if (videoSurface != null && videoSurface.isValid()) {
+//            mMediaPlayer.setSurface(videoSurface);
+//        } else {
+//            stop();
+//        }
+        return mMediaPlayer;
     }
 
 
@@ -203,11 +221,12 @@ public class CustomVideoView extends RelativeLayout implements
     @Override
     public void onPrepared(MediaPlayer mp) {
         mMediaPlayer = mp;
+        showPlayView();
         if (mMediaPlayer != null) {
             mMediaPlayer.setOnBufferingUpdateListener(this);
             mCurrentCount = 0;
-            if (mListener != null) {
-                mListener.OnAdVideoLoadSuccess();
+            if (listener != null) {
+                listener.OnAdVideoLoadSuccess();
             }
             /**
              * 是否可以播放的两个条件限制：
@@ -215,7 +234,16 @@ public class CustomVideoView extends RelativeLayout implements
              * [2]用户的设置和当前的网络状态一致；
              */
 
-            decideCanPlay();
+            //满足自动播放条件，则直接播放
+            if (Utils.canAutoPlay(getContext(),
+                    AdParameters.getCurrentSetting()) &&
+                    Utils.getVisiblePercent(mParentContainer) > SDKConstant.VIDEO_SCREEN_PERCENT) {
+                setCurrentPlayState(STATE_PAUSING);
+                resume();
+            } else {
+                setCurrentPlayState(STATE_PLAYING);
+                pause();
+            }
         }
 
     }
@@ -225,9 +253,13 @@ public class CustomVideoView extends RelativeLayout implements
     public boolean onError(MediaPlayer mp, int what, int extra) {
         //true:app自己处理处理的发生；false：android 系统处理错误； 系统默认false；
         this.mPlayerState = STATE_ERROR;
+        mMediaPlayer = mp;
+        if (mMediaPlayer != null) {
+            mMediaPlayer.reset();
+        }
         if (mCurrentCount >= LOAD_TOTAL_COUNT){
-            if (mListener != null){
-                mListener.OnAdVideoLoadFailed();
+            if (this.listener  != null){
+                listener.OnAdVideoLoadFailed();
             }
             showPauseView(false);
         }
@@ -245,7 +277,7 @@ public class CustomVideoView extends RelativeLayout implements
     @Override
     public void onCompletion(MediaPlayer mp) {
         if (listener != null){
-            mListener.OnAdVideoLoadComplete();
+            listener.OnAdVideoLoadComplete();
         }
 
         setIsComplete(true);
@@ -258,6 +290,10 @@ public class CustomVideoView extends RelativeLayout implements
     public void onBufferingUpdate(MediaPlayer mp, int percent) {
 
     }
+
+
+
+
 
     //SurfaceTexture处于就绪的状态；
     //只有在Texture 准备好之后才可以对视频加载；
@@ -348,21 +384,17 @@ public class CustomVideoView extends RelativeLayout implements
         if (this.mPlayerState != STATE_IDLE) {
             return;
         }
-
+        showLoadingView();
         try {
-
-            showLoadingView();
             setCurrentPlayeState(STATE_IDLE);
             checkMediaPlayer();//完成播放器的创建工作；
             mute(true);
-            mMediaPlayer.setDataSource(this.mFrameURI);
+            mMediaPlayer.setDataSource(this.mUrl);
             mMediaPlayer.prepareAsync();//异步加载视频；
         } catch (IOException e) {
             stop();
             e.printStackTrace();
         }
-
-
     }
 
     /**
@@ -388,6 +420,9 @@ public class CustomVideoView extends RelativeLayout implements
         loadFramImage();
     }
 
+
+
+
     //暂停视频
     public void pause() {
         if (this.mPlayerState != STATE_PLAYING){
@@ -397,8 +432,27 @@ public class CustomVideoView extends RelativeLayout implements
         if (isPlaying()){
             //完成真正的暂停
             mMediaPlayer.pause();
+            if (!this.canPlay) {
+                this.mMediaPlayer.seekTo(0);
+            }
         }
         showPauseView(false);
+        mHandler.removeCallbacksAndMessages(null);
+    }
+
+    //全屏不显示暂停状态,后续可以整合，不必单独出一个方法
+    public void pauseForFullScreen() {
+        if (mPlayerState != STATE_PLAYING) {
+            return;
+        }
+//        LogUtils.d(TAG, "do full pause");
+        setCurrentPlayState(STATE_PAUSING);
+        if (isPlaying()) {
+            mMediaPlayer.pause();
+            if (!this.canPlay) {
+                mMediaPlayer.seekTo(0);
+            }
+        }
         mHandler.removeCallbacksAndMessages(null);
     }
 
@@ -522,10 +576,6 @@ public class CustomVideoView extends RelativeLayout implements
         }
     }
 
-    private MediaPlayer createMediaPlayer() {
-        return mMediaPlayer;
-    }
-
     //注册广播
     private void registerBroadCastReceiver() {
         if (mMediaPlayer != null) {
@@ -578,6 +628,13 @@ public class CustomVideoView extends RelativeLayout implements
         }
     }
 
+    private void showPlayView() {
+        mLoadingBar.clearAnimation();
+        mLoadingBar.setVisibility(View.GONE);
+        mMiniPlayBtn.setVisibility(View.GONE);
+        mFrameView.setVisibility(View.GONE);
+    }
+
     /**
      * 异步加载定帧图像
      */
@@ -621,12 +678,7 @@ public class CustomVideoView extends RelativeLayout implements
         mPlayerState = state;
     }
 
-    public int getDuration() {
-        if (mMediaPlayer != null) {
-            return mMediaPlayer.getDuration();
-        }
-        return 0;
-    }
+
 
     public int getCurrentPosition() {
         if (this.mMediaPlayer != null) {
@@ -636,13 +688,58 @@ public class CustomVideoView extends RelativeLayout implements
         return 0;
     }
 
+    public int getDuration() {
+        if (mMediaPlayer != null) {
+            return mMediaPlayer.getDuration();
+        }
+        return 0;
+    }
+
     public void setDataSource(String url){
-        this.mFrameURI = url;
+        this.mUrl = url;
+    }
+
+    public void setFrameURI(String url) {
+        mFrameURI = url;
     }
 
     public boolean isFrameHidden(){
         return mFrameView.getVisibility() == View.VISIBLE?false:true;
     }
 
+    public void destroy() {
+        Logger.d(TAG, " do destroy");
+        if (this.mMediaPlayer != null) {
+            this.mMediaPlayer.setOnSeekCompleteListener(null);
+            this.mMediaPlayer.stop();
+            this.mMediaPlayer.release();
+            this.mMediaPlayer = null;
+        }
+        setCurrentPlayState(STATE_IDLE);
+        mCurrentCount = 0;
+        setIsComplete(false);
+        setIsRealPause(false);
+        unRegisterBroadCastReceiver();
+        mHandler.removeCallbacksAndMessages(null); //release all message and runnable
+        showPauseView(false); //除了播放和loading外其余任何状态都显示pause
+    }
+
+
+    //跳到指定点播放视频
+    public void seekAndResume(int position) {
+        if (mMediaPlayer != null) {
+            showPauseView(true);
+            entryResumeState();
+            mMediaPlayer.seekTo(position);
+            mMediaPlayer.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
+                @Override
+                public void onSeekComplete(MediaPlayer mp) {
+                    Logger.d(TAG, "do seek and resume");
+                    mMediaPlayer.start();
+                    mHandler.sendEmptyMessage(TIME_MSG);
+                }
+            });
+        }
+    }
 
 }

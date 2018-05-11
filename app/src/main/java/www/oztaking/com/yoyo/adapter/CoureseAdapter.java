@@ -1,6 +1,7 @@
 package www.oztaking.com.yoyo.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.ScrollingView;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -15,6 +16,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
@@ -25,6 +28,10 @@ import www.oztaking.com.yoyo.R;
 import www.oztaking.com.yoyo.module.recommand.RecommandBodyValue;
 import www.oztaking.com.yoyo.utils.ImageLoaderManager;
 import www.oztaking.com.yoyo.utils.Utils;
+import www.wsxingjun.com.yoyolibsdk.Activity.AdBrowserActivity;
+import www.wsxingjun.com.yoyolibsdk.core.AdContextInterface;
+import www.wsxingjun.com.yoyolibsdk.core.video.VideoAdContext;
+import www.wsxingjun.com.yoyolibsdk.core.video.VideoAdSlot;
 
 /**
  * @function:
@@ -39,6 +46,7 @@ public class CoureseAdapter extends BaseAdapter {
     private int mLongth;
 
 
+    private VideoAdContext mAdsdkContext;
 
     private static final int CARD_COUNT = 4;
     private static final int VIDOE_TYPE = 0x00; //视频类型的item
@@ -54,6 +62,7 @@ public class CoureseAdapter extends BaseAdapter {
     private ViewHolder mViewHolder;
 
     private ImageLoaderManager mImagerLoader;
+    private View mVideoContentLayout;
 
     public CoureseAdapter(Context context, ArrayList<RecommandBodyValue> data) {
         mData = data;
@@ -157,6 +166,32 @@ public class CoureseAdapter extends BaseAdapter {
 
                     convertView.setTag(mViewHolder);
                     break;
+                case VIDOE_TYPE:
+                    mViewHolder = new ViewHolder();
+                    convertView = mInflate.inflate(R.layout.item_video_layout, parent, false);
+                    mViewHolder.mVieoContentLayout = (RelativeLayout)convertView.findViewById(R.id.video_ad_layout);
+                    //为对应布局创建播放器
+                    mAdsdkContext = new VideoAdContext(mViewHolder.mVieoContentLayout,new Gson().toJson(value), null);
+//                    mAdsdkContext.setAdResultListener(new AdContextInterface() {
+//                        @Override
+//                        public void onAdSuccess() {
+//
+//                        }
+//
+//                        @Override
+//                        public void onAdFailed() {
+//
+//                        }
+//
+//                        @Override
+//                        public void onClickVideo(String url) {
+//                            Intent intent = new Intent(mContext, AdBrowserActivity.class);
+//                            intent.putExtra(AdBrowserActivity.KEY_URL, url);
+//                            mContext.startActivity(intent);
+//                        }
+//                    });
+
+                    break;
 
                 default:
                     break;
@@ -217,6 +252,13 @@ public class CoureseAdapter extends BaseAdapter {
         return convertView;
     }
 
+    //自动播放方法
+    public void updateAdInScrollView(){
+        if (mAdsdkContext != null){
+            mAdsdkContext.updateAdInScrollView();
+        }
+    }
+
     private View createImageView(String url) {
         ImageView photoView = new ImageView(mContext);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(Utils.dip2px(mContext, 100), LinearLayout.LayoutParams.MATCH_PARENT);
@@ -246,6 +288,8 @@ public class CoureseAdapter extends BaseAdapter {
 
         //CardThree 特有的属性 //viewPager
         private ViewPager mViewPager;
+        //Video 特有的属性
+        private RelativeLayout mVieoContentLayout;
 
     }
 

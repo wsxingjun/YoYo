@@ -21,6 +21,8 @@ import android.view.WindowManager;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 
+import www.wsxingjun.com.yoyolibsdk.constant.SDKConstant;
+
 /**
  * @author qndroid
  */
@@ -68,26 +70,26 @@ public class Utils {
         return false;
     }
 
-//    //decide can autoplay the ad
-//    public static boolean canAutoPlay(Context context, AutoPlaySetting setting) {
-//        boolean result = true;
-//        switch (setting) {
-//            case AUTO_PLAY_3G_4G_WIFI:
-//                result = true;
-//                break;
-//            case AUTO_PLAY_ONLY_WIFI:
-//                if (isWifiConnected(context)) {
-//                    result = true;
-//                } else {
-//                    result = false;
-//                }
-//                break;
-//            case AUTO_PLAY_NEVER:
-//                result = false;
-//                break;
-//        }
-//        return result;
-//    }
+    //decide can autoplay the ad
+    public static boolean canAutoPlay(Context context, SDKConstant.AutoPlaySetting setting) {
+        boolean result = true;
+        switch (setting) {
+            case AUTO_PLAY_3G_4G_WIFI:
+                result = true;
+                break;
+            case AUTO_PLAY_ONLY_WIFI:
+                if (isWifiConnected(context)) {
+                    result = true;
+                } else {
+                    result = false;
+                }
+                break;
+            case AUTO_PLAY_NEVER:
+                result = false;
+                break;
+        }
+        return result;
+    }
 
     /**
      * 获取对应应用的版本号
